@@ -1,64 +1,57 @@
-import { useGSAP } from '@gsap/react'
-import { useRef } from 'react'
-import { gsap } from '@/lib/gsap.js'
+import { useEffect, useRef, useState } from 'react'
 
 export function usePendulum() {
   const rootRef = useRef(null)
-  const fanRef = useRef(null)
+  const [arrowAngle, setArrowAngle] = useState(0)
+  const [activeLabel, setActiveLabel] = useState('ME')
 
-  useGSAP(
-    () => {
-      const cards = gsap.utils.toArray('[data-pendulum-card]')
-      if (!cards.length) return
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
 
-      const idle = cards.map((card, index) =>
-        gsap.to(card, {
-          rotate: `+=${index % 2 === 0 ? 2.4 : -2.4}`,
-          duration: 2.6 + index * 0.18,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        }),
-      )
+    const onMove = (event) => {
+      const rect = root.getBoundingClientRect()
+      const nx = (event.clientX - rect.left) / rect.width - 0.5
+      document.documentElement.style.setProperty('--fan-mouse', `${nx * 18}deg`)
 
-      const onMove = (event) => {
-        const fan = fanRef.current
-        if (!fan) return
-        const rect = fan.getBoundingClientRect()
-        const nx = (event.clientX - rect.left) / rect.width - 0.5
-        const ny = (event.clientY - rect.top) / rect.height - 0.5
-        gsap.to(fan, {
-          rotate: nx * 7,
-          x: nx * 18,
-          y: ny * 8,
-          duration: 0.9,
-          ease: 'power3.out',
-          overwrite: 'auto',
-        })
-      }
+      const originX = rect.left + rect.width / 2
+      const originY = rect.bottom - 28
+      const pointerAngle =
+        (Math.atan2(event.clientX - originX, originY - event.clientY) * 180) /
+        Math.PI
+      setArrowAngle(Math.max(-55, Math.min(55, pointerAngle)))
 
-      const onLeave = () => {
-        gsap.to(fanRef.current, {
-          rotate: 0,
-          x: 0,
-          y: 0,
-          duration: 1.2,
-          ease: 'elastic.out(1, 0.65)',
-        })
-      }
+      const cards = root.querySelectorAll('[data-pendulum-card]')
+      let nearestLabel = 'ME'
+      let nearest = Infinity
+      cards.forEach((card) => {
+        const box = card.getBoundingClientRect()
+        const cx = box.left + box.width / 2
+        const cy = box.top + box.height / 2
+        const dist = (cx - event.clientX) ** 2 + (cy - event.clientY) ** 2
+        if (dist < nearest) {
+          nearest = dist
+          nearestLabel = card.dataset.label ?? 'ME'
+        }
+      })
+      setActiveLabel(nearestLabel)
+    }
 
-      const root = rootRef.current
-      root?.addEventListener('pointermove', onMove)
-      root?.addEventListener('pointerleave', onLeave)
+    const onLeave = () => {
+      document.documentElement.style.setProperty('--fan-mouse', '0deg')
+      setArrowAngle(0)
+      setActiveLabel('ME')
+    }
 
-      return () => {
-        idle.forEach((tween) => tween.kill())
-        root?.removeEventListener('pointermove', onMove)
-        root?.removeEventListener('pointerleave', onLeave)
-      }
-    },
-    { scope: rootRef },
-  )
+    root.addEventListener('pointermove', onMove)
+    root.addEventListener('pointerleave', onLeave)
 
-  return { rootRef, fanRef }
+    return () => {
+      root.removeEventListener('pointermove', onMove)
+      root.removeEventListener('pointerleave', onLeave)
+      document.documentElement.style.setProperty('--fan-mouse', '0deg')
+    }
+  }, [])
+
+  return { rootRef, arrowAngle, activeLabel }
 }

@@ -2,16 +2,14 @@
 
 @theme {
   --color-ink: #111111;
-  --color-paper: #e8e8e8;
+  --color-paper: #ececec;
   --color-muted: #7a7a7a;
-  --color-accent: #ee4d2a;
+  --color-accent: #e85c3c;
   --color-card: #111111;
 
-  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
-  --font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-display: "Archivo Black", "Arial Black", sans-serif;
+  --font-condensed: "Oswald", "Barlow Condensed", sans-serif;
   --font-sans: "Syne", system-ui, sans-serif;
-
-  --ease-pendulum: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html,
@@ -36,7 +34,7 @@ body {
   position: absolute;
   width: 10px;
   height: 10px;
-  color: #bdbdbd;
+  color: #c4c4c4;
 }
 
 .plus-mark::before,
@@ -50,33 +48,127 @@ body {
 }
 
 .plus-mark::before {
-  width: 9px;
+  width: 10px;
   height: 1px;
 }
 
 .plus-mark::after {
   width: 1px;
-  height: 9px;
+  height: 10px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.05em;
+  line-height: 0.82;
+  font-size: clamp(3.6rem, 13.2vw, 10.4rem);
 }
 
 .title-outline {
   color: transparent;
-  -webkit-text-stroke: 1.6px #111;
-  text-stroke: 1.6px #111;
+  -webkit-text-stroke: 2px #111;
 }
 
 .title-fill {
   color: #111;
 }
 
-.pendulum-card {
-  transform-origin: 50% 118%;
-  will-change: transform;
-  backface-visibility: hidden;
+:root {
+  --fan-mouse: 0deg;
 }
 
-.ornament-ring {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 58%, #1a1a1a 59%, #1a1a1a 72%, transparent 73%),
-    repeating-conic-gradient(from 0deg, #1a1a1a 0deg 8deg, transparent 8deg 16deg);
+.fan-hub {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--fan-mouse));
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--card-w, 168px);
+  height: var(--card-h, 226px);
+  margin-left: calc(var(--card-w, 168px) / -2);
+  transform-origin: 50% 100%;
+  transform: rotate(var(--angle)) translateY(calc(-1 * var(--radius)));
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22);
+  transform-origin: 50% 120%;
+  transform: rotate(calc(var(--fan-mouse) * 0.35));
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+  will-change: transform;
+}
+
+.card-wrapper:hover {
+  z-index: 60 !important;
+}
+
+.card-wrapper:hover .card {
+  transform: rotate(calc(var(--fan-mouse) * 0.35)) scale(1.06);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.28);
+  filter: brightness(1.05);
+}
+
+.me-ring {
+  position: absolute;
+  left: 50%;
+  bottom: -3.4rem;
+  z-index: 8;
+  width: min(42vw, 340px);
+  height: min(42vw, 340px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.me-ring text {
+  fill: #bdbdbd;
+  font-family: "Oswald", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.42em;
+}
+
+.me-core {
+  position: absolute;
+  left: 50%;
+  bottom: 5.5rem;
+  z-index: 70;
+  display: flex;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.me-arrow {
+  display: inline-block;
+  color: #111;
+  font-size: 11px;
+  line-height: 1;
+  transform: rotate(var(--me-arrow, 0deg));
+  transform-origin: 50% 90%;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 700px) {
+  .card-wrapper {
+    --card-w: 118px;
+    --card-h: 160px;
+  }
 }

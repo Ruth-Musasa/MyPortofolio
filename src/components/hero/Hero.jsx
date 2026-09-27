@@ -3,12 +3,12 @@ import { TitleBlock } from '@/components/hero/TitleBlock.jsx'
 import { site } from '@/data/site.js'
 
 const plusMarks = [
-  { top: '7%', left: '46%' },
-  { top: '8%', left: '62%' },
-  { top: '28%', left: '8%' },
-  { top: '58%', left: '6%' },
-  { top: '57%', left: '58%' },
-  { top: '36%', left: '88%' },
+  { top: '6%', left: '38%' },
+  { top: '5%', right: '6%' },
+  { top: '7%', left: '8%' },
+  { top: '42%', left: '11%' },
+  { top: '42%', right: '11%' },
+  { top: '36%', left: '46%' },
 ]
 
 function SideChevron({ side }) {
@@ -16,7 +16,7 @@ function SideChevron({ side }) {
   return (
     <span
       aria-hidden="true"
-      className={`absolute top-[42%] z-30 hidden text-ink/35 md:block ${isLeft ? 'left-7' : 'right-7'}`}
+      className={`absolute top-[22%] z-30 hidden -translate-y-1/2 text-ink/40 md:block ${isLeft ? 'left-8' : 'right-8'}`}
     >
       <svg width="14" height="22" viewBox="0 0 14 22" fill="none">
         <path
@@ -33,41 +33,42 @@ export function Hero() {
   return (
     <section
       aria-label="Accueil"
-      className="relative flex h-svh flex-col overflow-hidden bg-paper"
+      className="relative h-svh overflow-hidden bg-paper"
     >
-      {plusMarks.map((mark) => (
+      {plusMarks.map((mark, index) => (
         <span
-          key={`${mark.top}-${mark.left}`}
+          key={index}
           aria-hidden="true"
-          className="plus-mark max-md:hidden"
+          className="plus-mark z-10 max-md:hidden"
           style={mark}
         />
       ))}
 
-      <header className="relative z-30 flex items-start justify-between px-8 pt-7 max-md:px-5">
-        <p className="font-condensed text-[0.95rem] leading-[1.05] font-semibold tracking-[0.18em] uppercase">
-          Welcome
+      <header className="relative z-30 flex items-start justify-between px-8 pt-8 max-md:px-5 max-md:pt-6">
+        <p className="font-condensed text-[11px] leading-4 font-medium tracking-[0.35em] text-neutral-700 uppercase sm:text-xs">
+          {site.welcome[0]}
           <br />
-          to my
+          {site.welcome[1]}
         </p>
         <span
           aria-hidden="true"
-          className="mt-1 grid h-8 w-8 place-items-center rounded-full border border-ink/60 text-ink"
+          className="mt-0.5 grid h-9 w-9 place-items-center rounded-full border border-neutral-400/80 text-neutral-600"
         >
-          <span className="font-condensed text-xs tracking-widest">Φ</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 8v8M8 12h8" />
+          </svg>
         </span>
       </header>
 
-      <div className="relative flex flex-1 flex-col items-center justify-center pb-[30vh] max-md:pb-[36vh]">
-        <SideChevron side="left" />
-        <SideChevron side="right" />
-        <AccentBar />
-        <TitleBlock />
+      <SideChevron side="left" />
+      <SideChevron side="right" />
+      <AccentBar />
+      <TitleBlock />
 
-        <div className="absolute top-[46%] left-1/2 z-50 flex w-[min(90rem,88%)] -translate-x-1/2 items-center justify-between font-condensed text-[0.75rem] tracking-[0.32em] text-[#6e6e6e] uppercase max-md:top-[48%] max-md:w-[92%] max-md:text-[0.58rem]">
-          <span>{site.name}</span>
-          <span>{site.role}</span>
-        </div>
+      <div className="absolute top-[33%] left-1/2 z-30 flex w-[min(90rem,86%)] -translate-x-1/2 items-center justify-between px-2 font-condensed text-[11px] tracking-[0.28em] text-neutral-500 uppercase max-md:top-[34%]">
+        <span>{site.name}</span>
+        <span>{site.role}</span>
       </div>
     </section>
   )
