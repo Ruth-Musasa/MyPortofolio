@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #111111;
+  --color-paper: #e8e8e8;
+  --color-muted: #7a7a7a;
+  --color-accent: #ee4d2a;
+  --color-card: #111111;
+
+  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Syne", system-ui, sans-serif;
+
+  --ease-pendulum: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+.plus-mark {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  color: #bdbdbd;
+}
+
+.plus-mark::before,
+.plus-mark::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.plus-mark::before {
+  width: 9px;
+  height: 1px;
+}
+
+.plus-mark::after {
+  width: 1px;
+  height: 9px;
+}
+
+.title-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.6px #111;
+  text-stroke: 1.6px #111;
+}
+
+.title-fill {
+  color: #111;
+}
+
+.pendulum-card {
+  transform-origin: 50% 118%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.ornament-ring {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 58%, #1a1a1a 59%, #1a1a1a 72%, transparent 73%),
+    repeating-conic-gradient(from 0deg, #1a1a1a 0deg 8deg, transparent 8deg 16deg);
+}
