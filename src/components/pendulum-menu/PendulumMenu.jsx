@@ -15,7 +15,7 @@ export function PendulumMenu() {
         <defs>
           <path
             id="me-circle"
-            d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"
+            d="M100,100 m-72,0 a72,72 0 1,1 144,0 "
           />
         </defs>
         <text>
