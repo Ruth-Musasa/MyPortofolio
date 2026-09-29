@@ -96,7 +96,8 @@ export function PendulumCard({ item }) {
       className="card-wrapper"
       style={{
         '--angle': `${fan.angle}deg`,
-        '--radius': fan.radius,
+        '--shift-x': fan.x,
+        '--shift-y': fan.y,
         '--card-w': fan.w,
         '--card-h': fan.h,
         zIndex: fan.z,

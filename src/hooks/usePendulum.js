@@ -15,7 +15,7 @@ export function usePendulum() {
       document.documentElement.style.setProperty('--fan-mouse', `${nx * 18}deg`)
 
       const originX = rect.left + rect.width / 2
-      const originY = rect.bottom - 28
+      const originY = rect.bottom - 40
       const pointerAngle =
         (Math.atan2(event.clientX - originX, originY - event.clientY) * 180) /
         Math.PI

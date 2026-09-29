@@ -77,13 +77,22 @@ body {
   --fan-mouse: 0deg;
 }
 
-.fan-hub {
+.fan-origin {
   position: absolute;
   left: 50%;
-  bottom: 1.4rem;
+  bottom: 2.5rem;
+  width: 0;
+  height: 0;
+}
+
+.fan-hub {
+  position: absolute;
+  left: 0;
+  bottom: 0;
   width: 0;
   height: 0;
   transform: rotate(var(--fan-mouse));
+  transform-origin: 0 0;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -95,7 +104,8 @@ body {
   height: var(--card-h, 226px);
   margin-left: calc(var(--card-w, 168px) / -2);
   transform-origin: 50% 100%;
-  transform: rotate(var(--angle)) translateY(calc(-1 * var(--radius)));
+  transform: translateX(var(--shift-x, 0px))
+    translateY(var(--shift-y, 0px)) rotate(var(--angle));
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -128,12 +138,12 @@ body {
 
 .me-ring {
   position: absolute;
-  left: 50%;
-  bottom: -3.4rem;
+  left: 0;
+  bottom: 0;
   z-index: 8;
   width: min(42vw, 340px);
   height: min(42vw, 340px);
-  transform: translateX(-50%);
+  transform: translate(-50%, 50%);
   pointer-events: none;
 }
 
@@ -146,11 +156,11 @@ body {
 
 .me-core {
   position: absolute;
-  left: 50%;
-  bottom: 5.5rem;
+  left: 0;
+  bottom: 0;
   z-index: 70;
   display: flex;
-  transform: translateX(-50%);
+  transform: translate(-50%, 50%);
   flex-direction: column;
   align-items: center;
   pointer-events: none;
